@@ -3,7 +3,7 @@
         <hello :message="msg"></hello>
         <img src="./assets/logo.png">
         <h1>{{ msg }}</h1>
-        <h2>Essential Links</h2>
+        <h2>{{status}}</h2>
         <ul>
             <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
             <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import Component from 'vue-class-component'
+    import {Component} from 'vue-property-decorator'
     import hello from "./components/hello/hello.vue"
 
     @Component({
@@ -30,7 +30,24 @@
     })
 
     export default class extends Vue {
-      public msg:string = 'Welcome to Your Vue.js App';
+      public msg:string = 'Welcome to Your Vue.js App111';
+
+      get status():string{
+          return this.msg + " smth else";
+      }
+
+      set status(val:string){
+          this.msg = val;
+      }
+
+      doSmth(){
+
+      }
+
+      mounted(){
+          console.log("Object has been mounted");
+
+      }
 
       constructor(){
           super();
