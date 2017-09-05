@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -11,17 +11,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
         options: {
-          loaders: {
-            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-            // the "scss" and "sass" values for the lang attribute to the right configs here.
-            // other preprocessors should work out of the box, no loader config like this necessary.
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-          }
-          // other vue-loader options go here
+          configFile: 'tsconfig.json',
+          appendTsSuffixTo: [/\.vue$/]
         }
       },
       {
@@ -35,17 +29,39 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            ts: 'ts-loader',
+            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
+            // the "scss" and "sass" values for the lang attribute to the right configs here.
+            // other preprocessors should work out of the box, no loader config like this necessary.
+            scss: 'vue-style-loader!css-loader!sass-loader',
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+          },
+          esModule: true
+        }
+      },
+      {
+        test: /\.css/,
+        loaders: ['style-loader', 'css-loader']
       }
     ]
   },
   resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    compress: true,
+    port: 8001
   },
   performance: {
     hints: false
