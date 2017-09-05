@@ -58,3 +58,8 @@ typings/
 .env
 
 .idea/
+
+dist/
+src/*.js
+src/**/*.js
+src/**/**/*.js
